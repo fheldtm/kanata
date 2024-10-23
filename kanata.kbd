@@ -1,3 +1,6 @@
+;; os: windows
+;; keyboard: k380, logitech ergo keyboard
+
 (defcfg
   process-unmapped-keys yes
   rapid-event-delay 5
@@ -5,25 +8,57 @@
 )
 
 (defsrc
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  ins del
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctrl lmet lalt           spc            ralt rctl
+  esc   f1   f2   f3   f4   f5   f6               f7   f8   f9   f10  f11  f12  ins del
+  grv   1    2    3    4    5    6                7    8    9    0    -    =    bspc
+  tab   q    w    e    r    t                     y    u    i    o    p    [    ]    \
+  caps  a    s    d    f    g                     h    j    k    l    ;    '    ret
+  lsft  z    x    c    v    b                     n    m    ,    .    /    rsft
+  lctrl     lmet     lalt               spc                   ralt     rctl
 )
 
 (deflayer qwerty
-  esc  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  ins del
-  grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
-  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lmet lalt           spc            ralt rctl
+  esc   f1   f2   f3   f4   f5   f6               f7   f8   f9   f10  f11  f12  ins del 
+  grv   1    2    3    4    5    6                7    8    9    0    -    =    bspc 
+  tab   q    w    e    r    t                     y    u    i    o    p    [    ]    \ 
+  @td2  a    s    d    f    g                     h    j    k    l    ;    '    ret 
+  lsft  z    x    c    v    b                     n    m    ,    .    /    rsft 
+  @td2      lmet     @td1               spc                   ralt     rctl
 )
 
+;; (deflayer boilerplate
+;;   XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  XX 
+;;   XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  
+;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX   XX   XX 
+;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX   XX 
+;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX  
+;;   XX        XX       XX                 XX                    XX       XX  
+;; )
+
+(deflayer util1
+  XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  XX 
+  XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  
+  XX    XX   XX   XX   XX   XX                    home pgup pgdn end  XX   XX   XX   XX 
+  XX    XX   XX   XX   XX   XX                    left down up   right XX   XX   XX 
+  XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX  
+  XX        XX       XX                 XX                    XX       XX  
+)
+
+;; Layer 설정
 (defalias
   LQwerty (layer-switch qwerty)
+  LUtil1 (layer-while-held util1)
+)
+
+;; tap-dance
+(defalias
+  ;; alias (tap-dance timeout (n번 눌렀을 때 어떤 작동을 할지))
+  ;; ex) AliasName (tap-dance 200 (a b (layer-switch qwerty))) ;; 한번 누르면 a, 두번 누르면 b, 세번 누르면 qwerty 레이어로 변경
+
+  ;; alt를 두번 누르면 win키로
+  td1 (tap-dance 200 (lalt lmet))
+
+  ;; ctrl를 몇번 누르는지에 따라 레이어 설정
+  td2 (tap-dance 200 (lctl @LUtil1))
 )
 
 ;; combo
@@ -31,3 +66,5 @@
   (j k) esc 50 all-released ()
   (i o) ret 50 all-released ()
 )
+
+;; tap-hold
