@@ -8,45 +8,57 @@
 )
 
 (defsrc
-  esc   f1   f2   f3   f4   f5   f6               f7   f8   f9   f10  f11  f12  ins del
-  grv   1    2    3    4    5    6                7    8    9    0    -    =    bspc
-  tab   q    w    e    r    t                     y    u    i    o    p    [    ]    \
-  caps  a    s    d    f    g                     h    j    k    l    ;    '    ret
-  lsft  z    x    c    v    b                     n    m    ,    .    /    rsft
-  lctrl     lmet     lalt               spc                   ralt     rctl
+  esc     f1     f2     f3     f4     f5     f6                       f7     f8     f9     f10    f11    f12    ins   del
+
+  grv     1      2      3      4      5      6                        7      8      9      0      -      =      bspc
+
+  tab     q      w      e      r      t                               y      u      i      o      p      [      ]      \
+  caps    a      s      d      f      g                               h      j      k      l      ;      '      ret
+  lsft    z      x      c      v      b                               n      m      ,      .      /      rsft
+
+  lctl           lmet          lalt                     spc                         ralt          rctl
 )
 
 (deflayer qwerty
-  esc   f1   f2   f3   f4   f5   f6               f7   f8   f9   f10  f11  f12  ins del 
-  grv   1    2    3    4    5    6                7    8    9    0    -    =    bspc 
-  tab   q    w    e    r    t                     y    u    i    o    p    [    ]    \ 
-  @td2  a    s    d    f    g                     h    j    k    l    ;    '    ret 
-  lsft  z    x    c    v    b                     n    m    ,    .    /    rsft 
-  @td2      lmet     @td1               spc                   ralt     rctl
+  esc     f1     f2     f3     f4     f5     f6                       f7     f8     f9     f10    f11    f12    ins   del 
+
+  grv     1      2      3      4      5      6                        7      8      9      0      -      =      bspc 
+
+  tab     q      w      e      r      t                               y      u      i      o      p      [      ]      \ 
+  @td1    a      s      d      f      g                               h      j      k      l      ;      '      ret 
+  lsft    z      x      c      v      b                               n      m      ,      .      /      rsft 
+
+  @td1           lmet          lalt                     spc                         ralt          rctl
 )
 
 ;; (deflayer boilerplate
-;;   XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  XX 
-;;   XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  
-;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX   XX   XX 
-;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX   XX 
-;;   XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX  
-;;   XX        XX       XX                 XX                    XX       XX  
+;;   XX      XX     XX     XX     XX     XX     XX               XX     XX     XX     XX     XX     XX     XX    XX 
+
+;;   XX      XX     XX     XX     XX     XX     XX               XX     XX     XX     XX     XX     XX     XX  
+
+;;   XX      XX     XX     XX     XX     XX                      XX     XX     XX     XX     XX     XX     XX     XX 
+;;   XX      XX     XX     XX     XX     XX                      XX     XX     XX     XX     XX     XX     XX 
+;;   XX      XX     XX     XX     XX     XX                      XX     XX     XX     XX     XX     XX  
+
+;;   XX             XX            XX                  XX                       XX            XX  
 ;; )
 
-(deflayer util1
-  XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  XX 
-  XX    XX   XX   XX   XX   XX   XX               XX   XX   XX   XX   XX   XX   XX  
-  XX    XX   XX   XX   XX   XX                    home pgup pgdn end  XX   XX   XX   XX 
-  XX    XX   XX   XX   XX   XX                    left down up   right XX   XX   XX 
-  XX    XX   XX   XX   XX   XX                    XX   XX   XX   XX   XX   XX  
-  XX        XX       XX                 XX                    XX       XX  
+(deflayer util-layer-1
+  XX      XX     XX     XX     XX     XX     XX                       XX     XX     XX     XX     XX     XX     XX    XX 
+
+  XX      XX     XX     XX     XX     XX     XX                       XX     XX     XX     XX     XX     XX     XX  
+
+  XX      XX     XX     XX     XX     XX                              XX     pgup   ins    XX     XX     XX     XX     XX 
+  XX      XX     XX     pgdn   XX     XX                              left   down   up     right  XX     XX     XX 
+  XX      XX     XX     XX     XX     XX                              XX     XX     XX     XX     XX     XX  
+
+  XX             XX            XX                       XX                          XX            XX  
 )
 
 ;; Layer 설정
 (defalias
   LQwerty (layer-switch qwerty)
-  LUtil1 (layer-while-held util1)
+  LUtil1 (layer-while-held util-layer-1)
 )
 
 ;; tap-dance
@@ -54,17 +66,53 @@
   ;; alias (tap-dance timeout (n번 눌렀을 때 어떤 작동을 할지))
   ;; ex) AliasName (tap-dance 200 (a b (layer-switch qwerty))) ;; 한번 누르면 a, 두번 누르면 b, 세번 누르면 qwerty 레이어로 변경
 
-  ;; alt를 두번 누르면 win키로
-  td1 (tap-dance 200 (lalt lmet))
-
   ;; ctrl를 몇번 누르는지에 따라 레이어 설정
-  td2 (tap-dance 200 (lctl @LUtil1))
+  td1 (tap-dance 200 (lctl @LUtil1))
 )
 
 ;; combo
+(defvirtualkeys
+  win lmet
+  ret ret
+  esc esc
+)
+(defalias
+  custom-esc (multi
+                (on-press tap-vkey esc)
+                (release-key alt)
+                (release-key lmet)
+                (layer-switch qwerty))
+  custom-ret (multi
+                (on-press tap-vkey ret)
+                (release-key alt)
+                (release-key lmet)
+                (layer-switch qwerty))
+)
 (defchordsv2-experimental
-  (j k) esc 50 all-released ()
-  (i o) ret 50 all-released ()
+  (lctl spc ret) lrld 50 all-released () ;; live-reload
+  (j k) @custom-esc 50 all-released ()
+  (i o) @custom-ret 50 all-released ()
+  (a t) @start-alt-tab 50 all-released ()
+  (a s) (on-press press-vkey alt) 50 all-released ()
+  (w e) (on-press press-vkey win) 50 all-released ()
 )
 
-;; tap-hold
+;; Alt Tab
+(deflayermap (alt-tab-layer)
+  t tab
+  b S-tab
+  h left
+  j down
+  k up
+  l right
+)
+(defvirtualkeys
+  alt lalt
+  tab tab
+)
+(defalias
+  start-alt-tab (multi
+                  (on-press press-vkey alt)
+                  (on-press tap-vkey tab)
+                  (layer-switch alt-tab-layer))
+)
