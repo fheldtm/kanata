@@ -72,47 +72,15 @@
 
 ;; combo
 (defvirtualkeys
-  win lmet
   ret ret
   esc esc
 )
 (defalias
-  custom-esc (multi
-                (on-press tap-vkey esc)
-                (release-key alt)
-                (release-key lmet)
-                (layer-switch qwerty))
-  custom-ret (multi
-                (on-press tap-vkey ret)
-                (release-key alt)
-                (release-key lmet)
-                (layer-switch qwerty))
+  custom-esc (on-press tap-vkey esc)
+  custom-ret (on-press tap-vkey ret)
 )
 (defchordsv2-experimental
   (lctl spc ret) lrld 50 all-released () ;; live-reload
   (j k) @custom-esc 50 all-released ()
   (i o) @custom-ret 50 all-released ()
-  (a t) @start-alt-tab 50 all-released ()
-  (a s) (on-press press-vkey alt) 50 all-released ()
-  (w e) (on-press press-vkey win) 50 all-released ()
-)
-
-;; Alt Tab
-(deflayermap (alt-tab-layer)
-  t tab
-  b S-tab
-  h left
-  j down
-  k up
-  l right
-)
-(defvirtualkeys
-  alt lalt
-  tab tab
-)
-(defalias
-  start-alt-tab (multi
-                  (on-press press-vkey alt)
-                  (on-press tap-vkey tab)
-                  (layer-switch alt-tab-layer))
 )
