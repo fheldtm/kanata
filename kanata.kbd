@@ -16,7 +16,7 @@
   caps    a      s      d      f      g                               h      j      k      l      ;      '      ret
   lsft    z      x      c      v      b                               n      m      ,      .      /      rsft
 
-  lctl           f18          f19                     spc                         ralt          rctl
+  lctl           prnt          slck                     spc                         ralt          rctl
 )
 
 (deflayer qwerty
@@ -28,7 +28,7 @@
   @td1    a      s      d      f      g                               h      j      k      l      ;      '      ret 
   lsft    z      x      c      v      b                               n      m      ,      .      /      rsft 
 
-  @td1           lmet         lalt                    spc                         ralt          rctl
+  @td1           lmet          lalt                     spc                         ralt          rctl
 )
 
 ;; (deflayer boilerplate
@@ -52,7 +52,7 @@
   XX      XX     XX     pgdn   XX     XX                              left   down   up     right  XX     XX     XX 
   XX      XX     XX     XX     XX     XX                              XX     XX     XX     XX     XX     XX  
 
-  XX             XX           XX                      XX                          XX            XX  
+  XX             XX            XX                       XX                          XX            XX  
 )
 
 ;; Layer 설정
